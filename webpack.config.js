@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const helpers = require('./helpers');
+const express = require('express');
 
 module.exports = {
   entry: {
@@ -16,7 +17,10 @@ module.exports = {
   },
   
   devServer: {
-    contentBase: './dist'
+   contentBase: './dist',
+   setup(app) {
+     app.use('/docs', express.static(path.join(__dirname, 'public', 'docs')));
+   }
   },
 
   resolve: {
