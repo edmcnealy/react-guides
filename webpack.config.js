@@ -17,10 +17,7 @@ module.exports = {
   },
   
   devServer: {
-   contentBase: './dist',
-   setup(app) {
-     app.use('/docs', express.static(path.join(__dirname, 'public', 'docs')));
-   }
+   contentBase: './dist'
   },
 
   resolve: {
