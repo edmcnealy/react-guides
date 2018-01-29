@@ -1,13 +1,20 @@
-import React from 'react';
-import { Route, Link } from 'react-router-dom';
-import Navbar from './header/navbar';
-import Main from './main';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Guides from '../components/guides';
+import Navbar from '../components/navbar';
 
-const App = () => (
-  <div>
-    <Navbar />
-    <Main />
-  </div>
-);
+const App = ({ match: { params } }) => {
+  const style = {
+    paddingTop: '10px'
+  }
+  return (
+    <div>
+      <Navbar guidePath={params.guidePath || '/'} />
+      <div className="container" style={style}>
+        <Guides guidePath={params.guidePath || '/'} />
+      </div>
+    </div>
+  )
+}
 
 export default App;
