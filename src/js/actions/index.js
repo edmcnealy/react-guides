@@ -34,6 +34,7 @@ function receiveGuides(guidePath, json) {
     dirs: json.data.dirs || [],
     files: json.data.files || [],
     breadcrumbs: json.data.breadcrumbs,
+    markdown: json.data.markdown,
     receivedAt: Date.now()
   }
 }

@@ -20,7 +20,8 @@ function guides(state = {
   didInvalidate: false,
   dirs: [],
   files: [],
-  breadcrumbs: []
+  breadcrumbs: [],
+  markdown: null
 }, action) {
   switch (action.type) {
     case REQUEST_GUIDES:
@@ -33,6 +34,7 @@ function guides(state = {
         didInvalidate: false,
         dirs: action.dirs,
         files: action.files,
+        markdown: action.markdown,
         breadcrumbs: action.breadcrumbs,
         lastUpdated: action.receivedAt
       })

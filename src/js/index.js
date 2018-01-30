@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import configureStore from './configureStore';
 import App from './components/app';
+require('../sass/styles.scss');
 
 const store = configureStore();
 

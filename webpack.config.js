@@ -46,6 +46,13 @@ module.exports = {
 				use: ['style-loader', 'css-loader']
       },
       {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
+      },
+      {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: [
           {
@@ -71,6 +78,9 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: ['app', 'vendor']
+    }),
+    new ExtractTextPlugin('styles.css', {
+      allChunks: true
     }),
     new HtmlWebPackPlugin({
       template: './src/index.html',
