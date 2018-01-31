@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import {
-  selectGuidePath,
-  fetchGuidesIfNeeded
-} from '../actions';
+import { fetchGuidesIfNeeded } from '../actions';
 
-class Guides extends Component {
-
-  constructor(props) {
-    super(props);
-  }
+class GuidesCollection extends Component {
 
   componentDidMount() {
     const { dispatch, selectedGuidePath } = this.props
@@ -27,7 +21,17 @@ class Guides extends Component {
   }
 
   render() {
-    const { dirs, files, markdown } = this.props;
+    const { dirs, files, markdown, isFetching } = this.props;
+    const isEmpty = dirs.length === 0 && files.length === 0 && (!markdown || markdown === '');
+    
+    if (isFetching && isEmpty) {
+      return (
+        <h5>Loading...</h5>
+      )
+    }
+    if (!isFetching && isEmpty) {
+      <h5>Nothing here.</h5>
+    }
 
     if (markdown != null) {
       // This is a markdown file
@@ -41,12 +45,6 @@ class Guides extends Component {
     // This is a directory
     let dirsContainer = this.buildLink(dirs, true);
     let filesContainer = this.buildLink(files);
-
-    if (dirsContainer === null && filesContainer === null) {
-      return (
-        <div><h5>Nothing here.</h5></div>
-      );
-    }
 
     return (
       <div className="collection guides-collection">
@@ -83,9 +81,10 @@ class Guides extends Component {
       </pre>
     )
   }
+
 }
 
-Guides.propTypes = {
+GuidesCollection.propTypes = {
   selectedGuidePath: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
@@ -94,8 +93,9 @@ Guides.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { guidesByGuidePath } = state
-  const selectedGuidePath = ownProps.guidePath;
-
+  const { guidePath } = ownProps.match.params;
+  
+  const selectedGuidePath = guidePath || '';
   const {
     isFetching,
     lastUpdated,
@@ -119,4 +119,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(Guides)
+export default withRouter(connect(mapStateToProps)(GuidesCollection))

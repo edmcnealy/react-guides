@@ -24,8 +24,13 @@ function guides(state = {
   markdown: null
 }, action) {
   switch (action.type) {
+    case INVALIDATE_GUIDEPATH:
+      return Object.assign({}, state, {
+        didInvalidate: true
+      })
     case REQUEST_GUIDES:
       return Object.assign({}, state, {
+        isFetching: true,
         didInvalidate: true
       })
     case RECEIVE_GUIDES:

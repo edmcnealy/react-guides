@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Guides from '../components/guides';
-import Navbar from '../components/navbar';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import Navbar from './navbar';
+import GuidesCollection from './guidesCollection';
 
-const App = ({ match: { params } }) => {
-  const style = {
-    paddingTop: '10px'
-  }
+const style = {
+  paddingTop: '10px'
+}
+const App = () => {
   return (
     <div>
-      <Navbar guidePath={params.guidePath || '/'} />
+      <Navbar />
       <div className="container" style={style}>
-        <Guides guidePath={params.guidePath || '/'} />
+        <Route exact path="/:guidePath*" component={GuidesCollection} />
       </div>
     </div>
   )

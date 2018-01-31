@@ -1,0 +1,17 @@
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
+}
+
+.guides-collection {
+  max-width: 600px;
+}
