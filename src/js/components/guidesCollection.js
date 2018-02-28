@@ -21,16 +21,14 @@ class GuidesCollection extends Component {
   }
 
   render() {
-    const { dirs, files, markdown, isFetching } = this.props;
-    const isEmpty = dirs.length === 0 && files.length === 0 && (!markdown || markdown === '');
-    
+    const { dirs, files, markdown, message, isFetching } = this.props;
+    const isEmpty = dirs.length === 0 && files.length === 0 && (markdown == null || markdown === '');
+
     if (isFetching && isEmpty) {
-      return (
-        <h5>Loading...</h5>
-      )
+      return (<h5>Loading...</h5>);
     }
     if (!isFetching && isEmpty) {
-      <h5>Nothing here.</h5>
+      return (<h5>{message ? message : 'Nothing here.'}</h5>);
     }
 
     if (markdown != null) {
@@ -85,29 +83,33 @@ class GuidesCollection extends Component {
 }
 
 GuidesCollection.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   selectedGuidePath: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
-  dispatch: PropTypes.func.isRequired
+  dirs: PropTypes.array.isRequired,
+  files: PropTypes.array.isRequired,
+  markdown: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {
   const { guidesByGuidePath } = state
   const { guidePath } = ownProps.match.params;
-  
+
   const selectedGuidePath = guidePath || '';
   const {
     isFetching,
     lastUpdated,
-    dirs: dirs,
-    files: files,
-    markdown: markdown
+    guideData
   } = guidesByGuidePath[selectedGuidePath] || {
       isFetching: true,
-      dirs: [],
-      files: [],
-      markdown: null
-    }
+      guideData: {}
+    };
+
+  const dirs = guideData.dirs || [];
+  const files = guideData.files || [];
+  const markdown = guideData.markdown || null;
+  const message = guideData.message || null;
 
   return {
     selectedGuidePath,
@@ -115,7 +117,8 @@ function mapStateToProps(state, ownProps) {
     lastUpdated,
     dirs,
     files,
-    markdown
+    markdown,
+    message
   }
 }
 

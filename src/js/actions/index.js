@@ -31,10 +31,8 @@ function receiveGuides(guidePath, json) {
   return {
     type: RECEIVE_GUIDES,
     guidePath,
-    dirs: json.data.dirs || [],
-    files: json.data.files || [],
+    guideData: json.data || {},
     breadcrumbs: json.data.breadcrumbs,
-    markdown: json.data.markdown,
     receivedAt: Date.now()
   }
 }

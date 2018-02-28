@@ -18,10 +18,8 @@ function selectedGuidePath(state = '/', action) {
 function guides(state = {
   isFetching: false,
   didInvalidate: false,
-  dirs: [],
-  files: [],
+  guideData: {},
   breadcrumbs: [],
-  markdown: null
 }, action) {
   switch (action.type) {
     case INVALIDATE_GUIDEPATH:
@@ -37,9 +35,7 @@ function guides(state = {
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
-        dirs: action.dirs,
-        files: action.files,
-        markdown: action.markdown,
+        guideData: action.guideData,
         breadcrumbs: action.breadcrumbs,
         lastUpdated: action.receivedAt
       })
