@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createDirectory } from '../actions/addDirectoryAction';
+import { success, warn } from '../actions/alertActions';
 
 class AddDir extends Component {
   constructor(props) {
@@ -18,15 +19,17 @@ class AddDir extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.isAddingDirectory !== prevProps.isAddingDirectory && !this.props.isAddingDirectory) {
+      const { dispatch } = this.props;
+      
       if (this.props.wasAdded && this.props.error === null) {
+        dispatch(success(`Added the directory ${this.state.directoryName}.`));
         this.setState({
           directoryName: ''
         });
         this.toggleAdd();
-        // TODO Need alerts here
       }
       if (!this.props.wasAdded) {
-        // TODO Need alerts here
+        dispatch(warn(`The directory ${this.state.directoryName} already exists.`));
       }
     }
   }
@@ -49,6 +52,9 @@ class AddDir extends Component {
       directoryName: evt.target.value
     });
   }
+  selectAll(event) {
+    event.target.select();
+  }
 
   render() {
     let loadingDiv;
@@ -69,12 +75,12 @@ class AddDir extends Component {
     if (this.state.isAdding) {
       main = (
         <div className='input-field'>
-          <input type='text' id='directoryName' className='validate' onKeyPress={this.addDirectory} autoFocus='autoFocus' value={this.state.directoryName} onChange={evt => this.updateInputValue(evt)} onBlur={this.toggleAdd}/>
+          <input type='text' id='directoryName' className='validate' onKeyPress={this.addDirectory} autoFocus='autoFocus' value={this.state.directoryName} onChange={evt => this.updateInputValue(evt)} onBlur={this.toggleAdd} onFocus={this.selectAll}/>
           <label htmlFor='directoryName'>Add new directory</label>
         </div>
       );
     } else {
-      main = <button className='waves-effect waves-light btn' onClick={this.toggleAdd}>Add Directory</button>
+      main = <button className='waves-effect waves-light btn' onClick={this.toggleAdd}>Add Directory</button>;
     }
 
     return (
