@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import { fetchGuidesIfNeeded } from '../actions';
+import AddDir from './addDir';
 
 class GuidesCollection extends Component {
 
@@ -45,9 +46,14 @@ class GuidesCollection extends Component {
     let filesContainer = this.buildLink(files);
 
     return (
-      <div className="collection guides-collection">
-        {dirsContainer}
-        {filesContainer}
+      <div>
+        <div className="collection guides-collection">
+          {dirsContainer}
+          {filesContainer}
+        </div>
+        <div className="row">
+          <AddDir />
+        </div>
       </div>
     )
   }

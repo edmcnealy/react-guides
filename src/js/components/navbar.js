@@ -35,7 +35,6 @@ function mapStateToProps(state, ownProps) {
   const { location } = ownProps
   const selectedGuidePath = location.pathname.replace(/^\//, '');
 
-  console.log('navbar selectedGuidePath', selectedGuidePath)
   const { breadcrumbs } = guidesByGuidePath[selectedGuidePath] || { breadcrumbs: [] }
 
   return {
