@@ -8,22 +8,25 @@ class AddDir extends Component {
     super(props);
     this.state = {
       directoryName: '',
-      guidePath: location.pathname.replace(/^\//, '')
+      guidePath: location.pathname.replace(/^\//, ''),
+      isAdding: false
     };
 
     this.addDirectory = this.addDirectory.bind(this);
+    this.toggleAdd = this.toggleAdd.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    console.log('component did update')
-    if (this.props.error !== prevProps.error) {
-      console.log('error change', this.props.error)
-    }
     if (this.props.isAddingDirectory !== prevProps.isAddingDirectory && !this.props.isAddingDirectory) {
-      if (this.props.wasAdded) {
+      if (this.props.wasAdded && this.props.error === null) {
         this.setState({
           directoryName: ''
         });
+        this.toggleAdd();
+        // TODO Need alerts here
+      }
+      if (!this.props.wasAdded) {
+        // TODO Need alerts here
       }
     }
   }
@@ -35,6 +38,12 @@ class AddDir extends Component {
     }
   }
 
+  toggleAdd() {
+    this.setState({
+      isAdding: !this.state.isAdding
+    })
+  }
+
   updateInputValue(evt) {
     this.setState({
       directoryName: evt.target.value
@@ -42,20 +51,37 @@ class AddDir extends Component {
   }
 
   render() {
-    let isAddingDiv;
+    let loadingDiv;
     if (this.props.isAddingDirectory) {
-      isAddingDiv = <div>Loading...</div>
+      loadingDiv = <div>Loading...</div>
     } else {
-      isAddingDiv = '';
+      loadingDiv = '';
+    }
+
+    let errorDiv;
+    if (this.props.error === null || this.props.error === '') {
+      errorDiv = '';
+    } else {
+      errorDiv = <div>{this.props.error}</div>
+    }
+
+    let main;
+    if (this.state.isAdding) {
+      main = (
+        <div className='input-field'>
+          <input type='text' id='directoryName' className='validate' onKeyPress={this.addDirectory} autoFocus='autoFocus' value={this.state.directoryName} onChange={evt => this.updateInputValue(evt)} onBlur={this.toggleAdd}/>
+          <label htmlFor='directoryName'>Add new directory</label>
+        </div>
+      );
+    } else {
+      main = <button className='waves-effect waves-light btn' onClick={this.toggleAdd}>Add Directory</button>
     }
 
     return (
-      <div className="col s12 m6">
-        <div className="input-field">
-          <input type="text" id="directoryName" className="validate" onKeyPress={this.addDirectory} autoFocus="autoFocus" value={this.state.directoryName} onChange={evt => this.updateInputValue(evt)} />
-          <label htmlFor="directoryName">Add new directory</label>
-        </div>
-        {/* {isAddingDiv} */}
+      <div className='col s12 m6'>
+        {main}
+        {/* {loadingDiv} */}
+        <div className='red-text'>{errorDiv}</div>
       </div>
     )
   }

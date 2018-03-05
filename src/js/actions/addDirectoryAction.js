@@ -38,12 +38,21 @@ export function createDirectory(directoryName, guidePath) {
         sectionPath: `${guidePath}${directoryName}`
       })
     })
-    .then(response => response.json())
-    .then(json => {
-      dispatch(addDirectorySuccess(json.data));
-      dispatch(invalidateGuidePath(guidePath));
-      dispatch(fetchGuidesIfNeeded(guidePath));
-    })
-    .catch(error => dispatch(addDirectoryError(error)));
+      .then(response => {
+        if (!response.ok) {
+          return response.json()
+            .then(json => {
+              dispatch(addDirectoryError(json.message))
+            });
+        } else {
+          return response.json()
+            .then(json => {
+              dispatch(addDirectorySuccess(json.data));
+              dispatch(invalidateGuidePath(guidePath));
+              dispatch(fetchGuidesIfNeeded(guidePath));
+            });
+        }
+      })
+      .catch(error => { dispatch(addDirectoryError(error.message)); console.log(error) });
   }
 }

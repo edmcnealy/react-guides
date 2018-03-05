@@ -14,7 +14,8 @@ function addDirectoryState(state = {}, action) {
       case ADD_DIRECTORY_SUCCESS:
       return Object.assign({}, state, {
         isAddingDirectory: false,
-        wasAdded: action.wasAdded
+        wasAdded: action.wasAdded,
+        error: null
       });
     case ADD_DIRECTORY_ERROR:
       return Object.assign({}, state, {
