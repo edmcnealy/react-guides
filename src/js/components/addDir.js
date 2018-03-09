@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createDirectory } from '../actions/addDirectoryAction';
-import { success, warn } from '../actions/alertActions';
+import { alertSuccess, alertWarn } from '../actions/alertActions';
 
 class AddDir extends Component {
   constructor(props) {
@@ -22,14 +22,14 @@ class AddDir extends Component {
       const { dispatch } = this.props;
       
       if (this.props.wasAdded && this.props.error === null) {
-        dispatch(success(`Added the directory ${this.state.directoryName}.`));
+        dispatch(alertSuccess(`Added the directory ${this.state.directoryName}.`));
         this.setState({
           directoryName: ''
         });
         this.toggleAdd();
       }
       if (!this.props.wasAdded) {
-        dispatch(warn(`The directory ${this.state.directoryName} already exists.`));
+        dispatch(alertWarn(`The directory ${this.state.directoryName} already exists.`));
       }
     }
   }

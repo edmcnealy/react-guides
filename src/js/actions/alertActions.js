@@ -30,12 +30,12 @@ function createAlert(message, alertType) {
   let progress = 0;
   let currentTime = 0;
   let intervalLoopTime = 20;
-
+  
   let progressStep = 100 / (autoCloseTimeout / intervalLoopTime);
-
+  
   return dispatch => {
     let id = uuid();
-
+    
     let alert = {
       id,
       message,
@@ -60,16 +60,16 @@ function createAlert(message, alertType) {
   }
 }
 
-export function info(message) {
+export function alertInfo(message) {
   return createAlert(message, 'info');
 }
-export function success(message) {
+export function alertSuccess(message) {
   return createAlert(message, 'success');
 }
-export function warn(message) {
+export function alertWarn(message) {
   return createAlert(message, 'warn');
 }
-export function error(message) {
+export function alertError(message) {
   return createAlert(message, 'error');
 }
 
