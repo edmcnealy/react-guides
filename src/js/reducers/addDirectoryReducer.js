@@ -9,7 +9,8 @@ function addDirectoryState(state = {}, action) {
   switch (action.type) {
     case ADD_DIRECTORY_REQUEST:
       return Object.assign({}, state, {
-        isAddingDirectory: true
+        isAddingDirectory: true,
+        error: null
       })
       case ADD_DIRECTORY_SUCCESS:
       return Object.assign({}, state, {

@@ -33,7 +33,7 @@ Navbar.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { guidesByGuidePath } = state;
   const { location } = ownProps
-  const selectedGuidePath = location.pathname.replace(/^\//, '');
+  const selectedGuidePath = location.pathname.replace(/^\//, '').replace(/\/(edit)?$/, '');
 
   const { breadcrumbs } = guidesByGuidePath[selectedGuidePath] || { breadcrumbs: [] }
 

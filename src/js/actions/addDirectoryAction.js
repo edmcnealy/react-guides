@@ -6,7 +6,7 @@ import {
 } from '../constants/action-types';
 import { invalidateGuidePath, fetchGuidesIfNeeded } from '../actions';
 
-function addDirectoryRequest(wasAdded) {
+function addDirectoryRequest() {
   return {
     type: ADD_DIRECTORY_REQUEST
   }

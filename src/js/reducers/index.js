@@ -6,6 +6,7 @@ import {
   INVALIDATE_GUIDEPATH
 } from '../constants/action-types';
 import addDirectoryState from '../reducers/addDirectoryReducer'
+import saveMarkdownState from '../reducers/saveMarkdownReducer'
 import alertState from '../reducers/alertReducer'
 
 function selectedGuidePath(state = '/', action) {
@@ -63,6 +64,7 @@ const rootReducer = combineReducers({
   selectedGuidePath,
   guidesByGuidePath,
   addDirectoryState,
+  saveMarkdownState,
   alertState
 })
 

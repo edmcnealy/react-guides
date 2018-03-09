@@ -34,9 +34,16 @@ class GuidesCollection extends Component {
 
     if (markdown != null) {
       // This is a markdown file
+      let editLink = `/${this.props.selectedGuidePath}/edit`;
+      
       return (
-        <div className="markdown-body">
-          <ReactMarkdown source={markdown} />
+        <div>
+          <div className="right-align">
+            <Link to={editLink} className="waves-effect waves-light btn">Edit</Link>
+          </div>
+          <div className="markdown-body">
+            <ReactMarkdown source={markdown} />
+          </div>
         </div>
       )
     }
@@ -101,16 +108,16 @@ GuidesCollection.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { guidesByGuidePath } = state
   const { guidePath } = ownProps.match.params;
-
   const selectedGuidePath = guidePath || '';
+
   const {
     isFetching,
     lastUpdated,
     guideData
   } = guidesByGuidePath[selectedGuidePath] || {
-      isFetching: true,
-      guideData: {}
-    };
+    isFetching: true,
+    guideData: {}
+  };
 
   const dirs = guideData.dirs || [];
   const files = guideData.files || [];
