@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import { alertSuccess, alertWarn, alertError } from '../actions/alertActions';
 import { fetchGuidesIfNeeded } from '../actions';
 import { saveMarkdown } from '../actions/markdownEditActions';
+import SubmitButton from './submitButton';
 
 class MarkdownEdit extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class MarkdownEdit extends Component {
     if (this.props.markdown !== prevProps.markdown) {
       this.setState({ markdown: this.props.markdown });
     }
-    
+
     if (this.props.error !== prevProps.error) {
       let error = this.props.error;
       if (error != null && error !== '') {
@@ -56,17 +57,7 @@ class MarkdownEdit extends Component {
   render() {
     let { markdown } = this.state;
 
-    let buttonDiv;
     let cancelLink = `/${this.props.selectedGuidePath}`;
-    if (this.props.isSavingMarkdown) {
-      buttonDiv = <div>Saving...</div>
-    } else {
-      buttonDiv =
-        <div>
-          <button className="waves-effect waves-light btn light-blue" onClick={this.save}>Save</button>
-          <Link to={cancelLink} className="waves-effect waves-light btn blue-grey lighten-3">Cancel</Link>
-        </div>;
-    }
 
     return (
       <div className="row edit-container">
@@ -74,7 +65,10 @@ class MarkdownEdit extends Component {
           <div className="edit-area">
             <textarea className="materialize-textarea" value={markdown} onChange={evt => this.updateInputValue(evt)}></textarea>
           </div>
-          {buttonDiv}
+          <div>
+            <SubmitButton className="light-blue" submit={this.save} loading={this.props.isSavingMarkdown} name="Submit"></SubmitButton>
+            <Link to={cancelLink} className="waves-effect waves-light btn blue-grey lighten-3">Cancel</Link>
+          </div>
         </div>
         <div className="col s6">
           <div className="markdown-body">
