@@ -35,16 +35,20 @@ class GuidesCollection extends Component {
     const isEmpty = dirs.length === 0 && files.length === 0 && (markdown == null || markdown === '');
 
     if (isFetching && isEmpty) {
-      return (<h5>Loading...</h5>);
+      return (
+        <div className="guides progress">
+          <div className="indeterminate"></div>
+        </div>
+      );
     }
     if (!isFetching && isEmpty) {
-      return (<h5>{message ? message : 'Nothing here.'}</h5>);
+      return (<h5 className="center-align">{message ? message : 'Nothing here'}</h5>);
     }
 
     if (markdown != null) {
       // This is a markdown file
       let editLink = `/${this.props.selectedGuidePath}/edit`;
-      
+
       return (
         <div>
           <div className="right-align">
@@ -86,20 +90,6 @@ class GuidesCollection extends Component {
       );
     });
     return link;
-  }
-
-  styleCodeBlock(props) {
-    var html = Prism.highlight(props.literal, Prism.languages[props.language]);
-    var cls = 'language-' + props.language;
-
-    return (
-      <pre className={cls}>
-        <code
-          dangerouslySetInnerHTML={{ __html: html }}
-          className={cls}
-        />
-      </pre>
-    )
   }
 
 }

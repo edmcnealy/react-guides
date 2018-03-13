@@ -6,8 +6,14 @@ import { withRouter } from 'react-router';
 class Navbar extends Component {
 
   render() {
-    const { breadcrumbs } = this.props
-    
+    const { breadcrumbs } = this.props || []
+
+    if (breadcrumbs.length === 0) {
+      breadcrumbs.push({
+        url: '',
+        text: 'Guides'
+      })
+    }
     let items = breadcrumbs.map((breadcrumb) => {
       return (
         <a href={`#${breadcrumb.url}`} className="breadcrumb" key={breadcrumb.url}>{breadcrumb.text}</a>
