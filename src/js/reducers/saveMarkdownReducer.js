@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import {
   SAVE_MARKDOWN_REQUEST,
   SAVE_MARKDOWN_SUCCESS,

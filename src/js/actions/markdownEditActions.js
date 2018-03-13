@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 import {
   SAVE_MARKDOWN_REQUEST,
   SAVE_MARKDOWN_SUCCESS,

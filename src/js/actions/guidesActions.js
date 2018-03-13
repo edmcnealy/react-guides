@@ -1,9 +1,10 @@
 import fetch from 'cross-fetch';
 import {
-  REQUEST_GUIDES,
-  RECEIVE_GUIDES,
+  GUIDES_REQUEST,
+  GUIDES_SUCCESS,
+  GUIDES_ERROR,
   SELECT_GUIDEPATH,
-  INVALIDATE_GUIDEPATH
+  INVALIDATE_GUIDEPATH,
 } from '../constants/action-types';
 
 export function selectGuidePath(guidePath) {
@@ -20,30 +21,37 @@ export function invalidateGuidePath(guidePath) {
   }
 }
 
-function requestGuides(guidePath) {
+function guidesRequest(guidePath) {
   return {
-    type: REQUEST_GUIDES,
+    type: GUIDES_REQUEST,
     guidePath
   }
 }
-
-function receiveGuides(guidePath, json) {
+function guidesSuccess(guidePath, data) {
   return {
-    type: RECEIVE_GUIDES,
+    type: GUIDES_SUCCESS,
     guidePath,
-    guideData: json.data || {},
-    breadcrumbs: json.data.breadcrumbs,
+    guideData: data || {},
+    breadcrumbs: data.breadcrumbs || [],
     receivedAt: Date.now()
+  }
+}
+function guidesError(guidePath, error) {
+  return {
+    type: GUIDES_ERROR,
+    guidePath,
+    error
   }
 }
 
 export function fetchGuides(guidePath) {
   return dispatch => {
-    dispatch(requestGuides(guidePath));
+    dispatch(guidesRequest(guidePath));
 
     return fetch(`http://localhost:3000/api/guides/${guidePath}`)
       .then(response => response.json())
-      .then(json => dispatch(receiveGuides(guidePath, json)))
+      .then(json => dispatch(guidesSuccess(guidePath, json.data)))
+      .catch(error => dispatch(guidesError(guidePath, error.message)));
   }
 }
 

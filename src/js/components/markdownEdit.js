@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import { alertSuccess, alertWarn, alertError } from '../actions/alertActions';
-import { fetchGuidesIfNeeded } from '../actions';
+import { fetchGuidesIfNeeded } from '../actions/guidesActions';
 import { saveMarkdown } from '../actions/markdownEditActions';
 import SubmitButton from './submitButton';
 

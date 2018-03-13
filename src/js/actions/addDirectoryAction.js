@@ -4,7 +4,7 @@ import {
   ADD_DIRECTORY_SUCCESS,
   ADD_DIRECTORY_ERROR
 } from '../constants/action-types';
-import { invalidateGuidePath, fetchGuidesIfNeeded } from '../actions';
+import { invalidateGuidePath, fetchGuidesIfNeeded } from '../actions/guidesActions';
 
 function addDirectoryRequest() {
   return {

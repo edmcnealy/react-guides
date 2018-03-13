@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import { fetchGuidesIfNeeded } from '../actions';
+import { fetchGuidesIfNeeded } from '../actions/guidesActions';
+import { alertError } from '../actions/alertActions';
 import AddDir from './addDir';
 
 class GuidesCollection extends Component {
@@ -15,9 +16,17 @@ class GuidesCollection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectedGuidePath !== prevProps.selectedGuidePath) {
-      const { dispatch, selectedGuidePath } = this.props
+    const { dispatch, selectedGuidePath } = this.props
+
+    if (selectedGuidePath !== prevProps.selectedGuidePath) {
       dispatch(fetchGuidesIfNeeded(selectedGuidePath))
+    }
+
+    if (this.props.error !== prevProps.error) {
+      let error = this.props.error;
+      if (error != null && error !== '') {
+        dispatch(alertError(error));
+      }
     }
   }
 
@@ -113,7 +122,8 @@ function mapStateToProps(state, ownProps) {
   const {
     isFetching,
     lastUpdated,
-    guideData
+    guideData,
+    error
   } = guidesByGuidePath[selectedGuidePath] || {
     isFetching: true,
     guideData: {}
@@ -131,7 +141,8 @@ function mapStateToProps(state, ownProps) {
     dirs,
     files,
     markdown,
-    message
+    message,
+    error
   }
 }
 
