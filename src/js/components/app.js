@@ -6,6 +6,7 @@ import Navbar from './navbar';
 import GuidesCollection from './guidesCollection';
 import AlertContainer from './alertContainer';
 import MarkdownEdit from './markdownEdit';
+import Login from './login';
 
 const style = {
   paddingTop: '10px'
@@ -17,7 +18,10 @@ const App = () => {
       <Navbar />
       <div className="container" style={style}>
         <Route path="/:guidePath*" exact render={({location}) => {
-          return location.pathname.endsWith('.md/edit') ? <MarkdownEdit/> : <GuidesCollection/>;
+          if (location.pathname === '/login') {
+            return <Login />;
+          }
+          return location.pathname.endsWith('.md/edit') ? <MarkdownEdit /> : <GuidesCollection />;
         }} />
       </div>
     </div>

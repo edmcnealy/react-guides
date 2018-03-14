@@ -2,10 +2,37 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { getUser } from '../services/authService';
+import { logout } from '../services/authService';
 
 class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null
+    }
+  }
 
   render() {
+    let authContainer = '';
+    let user = getUser();
+    if (user != null) {
+      authContainer = (
+        <div>
+          <ul className="right hide-on-med-and-down">
+            <li className="right-align">
+              Howdy {user.username}!
+          </li>
+            <li>
+            <a className="waves-effect waves-light btn-flat" onClick={this.logout} style={{color:'white'}}>
+              <i className="material-icons left">exit_to_app</i>Logout
+            </a>
+            </li>
+          </ul>
+        </div>
+      );
+    }
+
     const { breadcrumbs } = this.props || []
 
     if (breadcrumbs.length === 0) {
@@ -23,8 +50,11 @@ class Navbar extends Component {
     return (
       <nav>
         <div className="nav-wrapper row">
-          <div className="col s12">
+          <div className="col s8">
             {items}
+          </div>
+          <div className="col s4">
+            {authContainer}
           </div>
         </div>
       </nav>
@@ -37,14 +67,15 @@ Navbar.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { guidesByGuidePath } = state;
+  const { guidesByGuidePath, user } = state;
   const { location } = ownProps
   const selectedGuidePath = location.pathname.replace(/^\//, '').replace(/\/(edit)?$/, '');
 
   const { breadcrumbs } = guidesByGuidePath[selectedGuidePath] || { breadcrumbs: [] }
 
   return {
-    breadcrumbs
+    breadcrumbs,
+    user
   }
 }
 

@@ -60,7 +60,7 @@ class SubmitButton extends Component {
     }
 
     return (
-        <button className={className} onClick={this.props.submit} disabled={this.props.loading}>
+        <button className={className} onClick={this.props.submit} disabled={this.props.loading} style={this.props.style}>
           <i className="material-icons left">{loadingIcon}</i>{this.props.name}
         </button>
     );
